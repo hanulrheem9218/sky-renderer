@@ -75,7 +75,7 @@ class Renderer {
         this.loadObjects = [];
         this.window = window;
         this.document = document;
-        this.renderer = new Three.WebGLRenderer();
+        this.renderer = new Three.WebGLRenderer({antialias:true});
         this.scene = new Three.Scene();
         this.perspectiveCamera = new Three.PerspectiveCamera();
         this.orbitControl = new OrbitControls(this.perspectiveCamera,this.renderer.domElement);
@@ -113,7 +113,7 @@ class Renderer {
         //register renderer
         this.renderer.toneMapping = Three.ACESFilmicToneMapping;
         this.renderer.toneMappingExposure = 1.8;
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setPixelRatio(this.window.devicePixelRatio * 1.5);
         this.renderer.shadowMap.enabled =true;
         this.renderer.setSize(this.window.innerWidth,this.window.innerHeight);
         this.composer.setSize(this.window.innerWidth, this.window.innerHeight);

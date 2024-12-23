@@ -9,12 +9,11 @@ export enum MODEL{
     METALCAN="/assets/models/metalCan.glb",
     RADIO="/assets/models/radio.glb",
     MARVELFACE="/assets/models/marble_face.glb",
-    LATERAL="/assets/models/lateralLow.glb",
+    LATERAL="/assets/models/lateral.glb",
     TOWER="/assets/models/tower.glb",
     BOAT="/assets/models/boat.glb",
     FISHINGBOAT="/assets/models/fishingBoat.glb",
     SNOWMOUNTAIN="/assets/models/snowMountain.glb",
-    MOUNTAIN="/assets/models/mountain01.glb",
     LANTERN="/assets/models/lantern.glb",
     CASSETTE="/assets/models/cassette_player.glb",
 }
