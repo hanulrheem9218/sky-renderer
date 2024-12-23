@@ -4,7 +4,6 @@ import Renderer from '../utils/renderer.ts';
 import * as Three from 'three';
 import { MODEL } from '../utils/modelPath';
 import { IMAGE } from '../utils/imagePath';
-import type { Water } from 'three/examples/jsm/Addons.js';
 
 
 defineProps<{ msg: string }>()
