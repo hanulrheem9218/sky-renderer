@@ -7,18 +7,9 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { VignetteShader } from '../shaders/VignetteShader';
-import { Flickering } from '../shaders/ScreenFlickeringShader';
+import { VignetteShader } from '../shaders/vignetteShader.js';
+import { Flickering } from '../shaders/screenFlickeringShader.js';
 
-
-type WindowSize = {
-    width:number;
-    height:number;
-    aspect:number;
-}
-type rendererProps = {
-    isSkybox: boolean;
-}
 type WaterProps ={
     waterColor: Three.ColorRepresentation;
     sunColor: Three.ColorRepresentation;

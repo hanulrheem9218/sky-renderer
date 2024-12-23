@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch} from 'vue'
+import { onMounted, ref} from 'vue'
 import Renderer from '../utils/renderer.ts';
 import * as Three from 'three';
 import { MODEL } from '../utils/modelPath';
@@ -58,10 +58,6 @@ onMounted(()=>{
 
   //var lantern = rendererEngine.gltfObject(MODEL.LANTERN);
   var lantern1 = rendererEngine.gltfObject(MODEL.LANTERN);
-
-  var panel = rendererEngine.flickeringObject(IMAGE.WATER,{position : new Three.Vector3(0,0,0)});
- // var cassette = rendererEngine.gltfObject(MODEL.CASSETTE);
-  const lanternLight = new Three.PointLight(0xFFAA00,1,25);
   const lanternLight1 = new Three.PointLight(0xFFAA00,1,25);
   rendererEngine.init(()=>{
     //   gameObject.then((model)=>{model.position.set(0,10,0);})
