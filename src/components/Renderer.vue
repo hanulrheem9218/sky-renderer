@@ -19,14 +19,22 @@ rendererEngine.checkAllAssetsLoaded = ()=>{
     scene.style.opacity = "1";
     const rendererPanel = document.querySelector(".renderer-panel") as HTMLDivElement;
     rendererPanel.style.opacity = "1";
-
-    const fileUrl = new URL("/assets/sound/background.mp3",import.meta.url);
+    
+    document.addEventListener(
+    "click",
+    () => {
+      console.log("click");
+      const fileUrl = new URL("/assets/sound/background.mp3",import.meta.url);
     const backgroundAudio = new Audio(fileUrl.href);
     backgroundAudio.volume = 0.01;
     backgroundAudio.loop = true;
-    backgroundAudio.play();    
+        backgroundAudio.play();
+    },
+    { once: true } 
+    );
   }
 }
+
 
 onMounted(()=>{
   rendererEngine.registerRenderer();
@@ -280,11 +288,29 @@ const elements = [
       <div class="circle" :id="`ui-circle-${index}`"></div>
       <div class="inner-circle" :id="`ui-inner-circle-${index}`"></div>
     </div> 
+    <div class="infoWindow">
+      <p>Info Window</p>
+    </div>
   </div> 
   <div class="renderer"></div>
 </template>
 
 <style scoped>
+.infoWindow{
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  min-height: 400px;
+  min-width: 250px;
+  border-radius: 5px;
+  border: white 1px solid;
+  top:0px;
+  left:0px;
+  display: flex;
+  padding: 25px;
+  z-index: 10;
+}
 .inner-circle{
   position: absolute;
   width:14px;
