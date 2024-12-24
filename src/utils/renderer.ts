@@ -59,13 +59,14 @@ class Renderer implements RendererObject{
     maxRange:number;
     minRange :number;
     minHeight:number;
-
+    
     //loading stauts
     sceneLoading:boolean;
     loadingAmount:number;
     maxLoadingAmount:number;
     loadingBarDomElement:HTMLDivElement;
     orbit:boolean;
+
     overrideUpdate:((deltaTime:number)=> void) | null = null;
     overrideInit: (()=>void) | null = null;
     constructor(window:Window, document:Document){
@@ -141,8 +142,8 @@ class Renderer implements RendererObject{
 
         const bloomPass = new UnrealBloomPass(
             new Three.Vector2(this.window.innerWidth, this.window.innerWidth), // Resolution
-            0.1,  // Strength (adjust to control bloom intensity)
-            0.9,  // Radius (spread of the bloom)
+            0.01,  // Strength (adjust to control bloom intensity)
+            0.03,  // Radius (spread of the bloom)
             0.01,   // Threshold (intensity threshold for bloom application)
         );
         this.composer.addPass(bloomPass);
@@ -194,7 +195,6 @@ class Renderer implements RendererObject{
     inputController(event:KeyboardEvent){
         switch(event.key){
             case "o":{
-                console.log("key pressed");
                 this.orbit = !this.orbit;
                 this.orbitControl.enabled = this.orbit;
                 break;

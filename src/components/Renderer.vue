@@ -17,6 +17,14 @@ rendererEngine.checkAllAssetsLoaded = ()=>{
     loadingText.value = "Complete";
     const scene = document.querySelector(".renderer") as HTMLDivElement;
     scene.style.opacity = "1";
+    const rendererPanel = document.querySelector(".renderer-panel") as HTMLDivElement;
+    rendererPanel.style.opacity = "1";
+
+    const fileUrl = new URL("/assets/sound/background.mp3",import.meta.url);
+    const backgroundAudio = new Audio(fileUrl.href);
+    backgroundAudio.volume = 0.01;
+    backgroundAudio.loop = true;
+    backgroundAudio.play();    
   }
 }
 
@@ -245,18 +253,18 @@ onMounted(()=>{
 })
 
 const elements = [
-        { text: '' ,imgSrc:"/assets/icons/circle.png" },
-        { text: '' ,imgSrc:"/assets/icons/circle.png"},
-        { text: '' ,imgSrc:"/assets/icons/circle.png"},
-        { text: '' ,imgSrc:"/assets/icons/circle.png" },
-        { text: '' ,imgSrc:"/assets/icons/circle.png"},
+        { text: 'Achievement' ,imgSrc:"/assets/icons/circle.png" },
+        { text: 'About-Me' ,imgSrc:"/assets/icons/circle.png"},
+        { text: 'Experience' ,imgSrc:"/assets/icons/circle.png"},
+        { text: 'Hobbies' ,imgSrc:"/assets/icons/circle.png" },
+        { text: 'Projects' ,imgSrc:"/assets/icons/circle.png"},
       ];
 
 
 </script>
 
 <template>
-
+<div class="ui-version">sky-renderer 1.0</div>
   <div v-if="sceneLoading" class="scene-loader">
     <p class="loading-text">{{ (loadingValue * 100).toFixed(2)  }}%</p>
     <div v-if="sceneLoading" class="loading-bar-container"> 
@@ -268,11 +276,10 @@ const elements = [
    <div class="renderer-panel"> 
     <div class="ui-element" :id="`ui-element-${index}`" v-for="(item,index) in elements":name="`ui-indicator-${index}`" :key="index">
       <!-- <img class="ui-icon" :src="`${item.imgSrc}`"/> -->
+      <div class="ui-element-text">{{ item.text }}</div>
       <div class="circle" :id="`ui-circle-${index}`"></div>
       <div class="inner-circle" :id="`ui-inner-circle-${index}`"></div>
-      <div class="ui-element-text">{{ item.text }}</div>
     </div> 
-    <div class="ui-version">sky-renderer 1.0</div>
   </div> 
   <div class="renderer"></div>
 </template>
@@ -307,7 +314,7 @@ const elements = [
   width: 100vw; 
   height: 100vh; 
   background-color: black;
-  z-index: 9999; 
+  z-index: 4; 
   display: flex;
   align-items: center; 
   justify-content: center; 
@@ -322,8 +329,24 @@ const elements = [
   font-weight: 400;
   font-style: normal;
   font-size:12px;
-  top: 0px;
-  left:0px;
+  top: 10px;
+  left:10px;
+  z-index: 5;
+}
+.ui-element-text{
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size:12px;
+  display: flex;
+  color:white;
+  transform:translate(-20px,-35px);
+  white-space: nowrap;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  padding:5px;
+  border-radius: 10%;
 }
 .ui-icon{
   width: 25px;
@@ -331,6 +354,7 @@ const elements = [
   user-select: none;
 }
 .ui-element{
+  display:flex;
   position: absolute;
   color:black;
   top:0px;
@@ -343,6 +367,8 @@ const elements = [
   left:0px;
   width: auto; 
   height: auto; 
+  opacity: 0;
+  transition: 0.5s;
   z-index: 1;
 }
 .renderer{

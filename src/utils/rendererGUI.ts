@@ -66,6 +66,7 @@ class RendererGUI {
            const index = mouseDomElement.id.match(/\d+/)?.[0];
            const innerCircle = mouseDomElement.querySelector(`#ui-inner-circle-${index}`) as HTMLDivElement;
            if(innerCircle !== null ){
+               innerCircle.style.cursor ="pointer";
                innerCircle.style.backgroundColor = "black";
                innerCircle.style.width = "20px";
                innerCircle.style.height = "20px";
@@ -78,6 +79,7 @@ class RendererGUI {
             const index = mouseDomElement.id.match(/\d+/)?.[0];
             const innerCircle = mouseDomElement.querySelector(`#ui-inner-circle-${index}`) as HTMLDivElement;
             if(innerCircle !== null ){
+                innerCircle.style.cursor ="";
                 innerCircle.style.backgroundColor ="white";
                 innerCircle.style.width = "14px";
                 innerCircle.style.height = "14px";
@@ -90,6 +92,10 @@ class RendererGUI {
             mouseDomElement.style.backgroundColor ="white";
             mouseDomElement.style.width = "14px";
             mouseDomElement.style.height = "14px";
+            const fileUrl = new URL("/assets/sound/menu.wav",import.meta.url);
+            const uiAudio = new Audio(fileUrl.href);
+            uiAudio.volume = 0.3;
+            uiAudio.play();
         }
     }
 }
