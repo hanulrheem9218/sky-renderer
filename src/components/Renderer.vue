@@ -4,7 +4,6 @@ import Renderer from '../utils/renderer.ts';
 import * as Three from 'three';
 import { MODEL } from '../utils/modelPath';
 import { IMAGE } from '../utils/imagePath';
-import { HomeIcon } from '@heroicons/vue/16/solid';
 
 const rendererEngine = new Renderer(window,document);
 var sceneLoading = ref(true);

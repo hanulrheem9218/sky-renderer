@@ -1,4 +1,3 @@
-import { HomeIcon } from "@heroicons/vue/16/solid";
 import * as Three from 'three';
 import { setWorldToScreenPosition, type ScreenSize } from "./vector";
 
