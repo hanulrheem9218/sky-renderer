@@ -4,7 +4,7 @@ import Renderer from './components/Renderer.vue';
 </script>
 
 <template>
-  <Renderer msg="shush"/>
+  <Renderer/>
 </template>
 
 <style scoped>

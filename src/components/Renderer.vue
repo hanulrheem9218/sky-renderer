@@ -4,9 +4,7 @@ import Renderer from '../utils/renderer.ts';
 import * as Three from 'three';
 import { MODEL } from '../utils/modelPath';
 import { IMAGE } from '../utils/imagePath';
-
-
-defineProps<{ msg: string }>()
+import { HomeIcon } from '@heroicons/vue/16/solid';
 
 const rendererEngine = new Renderer(window,document);
 var sceneLoading = ref(true);
@@ -60,6 +58,7 @@ onMounted(()=>{
   const lanternLight1 = new Three.PointLight(0xFFAA00,1,25);
   rendererEngine.init(()=>{
     //   gameObject.then((model)=>{model.position.set(0,10,0);})
+      rendererEngine.rendererGUI.registerRendererGUI();
       rendererEngine.directionalLight();
       const ambientLight = new Three.AmbientLight(0x404040, 0.1); // Dim ambient light (low intensity)
       rendererEngine.scene.add(ambientLight);
@@ -80,18 +79,21 @@ onMounted(()=>{
         model.position.set(-1,4.5,70);
         model.scale.set(6,6,6);
         model.rotation.y = 0 * (Math.PI/ 180);
+        rendererEngine.rendererGUI.addUiElement({objectMatrix: model.matrixWorld, offsetY: -180, name: "tv"});
       })
       metalCan.then((model)=>{
         model.position.set(10,4.4,90);
         model.scale.set(6,6,6);
         model.rotation.y = 90 * (Math.PI/ 180);
         model.rotation.x = 20 * (Math.PI/ 180);
+        rendererEngine.rendererGUI.addUiElement({objectMatrix: model.matrixWorld,offsetY: -100, name: "metalCan"});
       });
       plantBox.then((model)=>{
         model.position.set(-20,-3,80);
         model.scale.set(5,5,5);
         model.rotation.y = 30 * (Math.PI/ 180);
         model.rotation.x = 20 * (Math.PI/ 180);
+        rendererEngine.rendererGUI.addUiElement({objectMatrix: model.matrixWorld,offsetY: -100, name: "plantBox"});
       })
       radio.then((model)=>{
         model.position.set(3,4.5,70);
@@ -136,16 +138,18 @@ onMounted(()=>{
         model.rotation.y = -40 * (Math.PI / 180);
         //model.rotation.x = -50 * (Math.PI /180);
         //model.rotation.z = 10 * (Math.PI /180);
+        rendererEngine.rendererGUI.addUiElement({objectMatrix: model.matrixWorld,offsetY: -100, name: "boat"});
       })
 
       fishingBoat.then((model)=>{
         model.position.set(-70,-2.2,-50);
         model.scale.set(0.07,0.07,0.07);
         model.rotation.y = 55 * (Math.PI / 180);
+        rendererEngine.rendererGUI.addUiElement({objectMatrix: model.matrixWorld,offsetY: -200, name: "fishingboat"});
       })
 
       mountain.then((model)=>{
-        model.position.set(0,-10,-1400);
+        model.position.set(0,-35,-1400);
         model.rotation.y = -90 * (Math.PI / 180);
         model.scale.set(1,1,1);
       })
@@ -194,6 +198,7 @@ onMounted(()=>{
       model.position.z = Math.cos(deltaTime / 1000) * 0.3 + 90;
       
       model.rotation.x = Math.sin(deltaTime/1000) * 5 * (Math.PI/180);
+      rendererEngine.rendererGUI.updateUiElements({objectMatrix: model.matrixWorld, name: "metalCan"});
     })
 
     plantBox.then((model)=>{
@@ -202,6 +207,7 @@ onMounted(()=>{
       model.position.z = Math.cos(deltaTime / 1000) * 0.8 + 80;
       
       model.rotation.x = Math.cos(deltaTime/3000) * 10 * (Math.PI/180);
+      rendererEngine.rendererGUI.updateUiElements({objectMatrix: model.matrixWorld, name: "plantBox"});
       })
 
     lateral1.then((model)=>{
@@ -222,15 +228,30 @@ onMounted(()=>{
         model.rotation.z =  Math.cos(deltaTime/1000) * 5 * (Math.PI/180);
         model.rotation.y =  Math.cos(deltaTime/1000) * 2 * (Math.PI/180);
         model.position.y = Math.cos(deltaTime /1000) * 0.2 +1.5;
+        rendererEngine.rendererGUI.updateUiElements({objectMatrix: model.matrixWorld, name: "boat"});
     })
 
     fishingBoat.then((model)=>{
       model.rotation.x = Math.cos(deltaTime /3000) * 2 * (Math.PI/180);
       model.position.y = Math.sin(deltaTime / 1000) * 0.5 -2.2;
       model.rotation.z = Math.cos(deltaTime /3000) * 2 * (Math.PI/180);
+      rendererEngine.rendererGUI.updateUiElements({objectMatrix: model.matrixWorld, name: "fishingboat"});
       })
+
+      television.then((model)=> {
+        rendererEngine.rendererGUI.updateUiElements({objectMatrix: model.matrixWorld, name: "tv"});
+      })
+
   });
 })
+
+const elements = [
+        { text: '' ,imgSrc:"/assets/icons/circle.png" },
+        { text: '' ,imgSrc:"/assets/icons/circle.png"},
+        { text: '' ,imgSrc:"/assets/icons/circle.png"},
+        { text: '' ,imgSrc:"/assets/icons/circle.png" },
+        { text: '' ,imgSrc:"/assets/icons/circle.png"},
+      ];
 
 
 </script>
@@ -244,10 +265,42 @@ onMounted(()=>{
      </div>
     </div> 
   </div>
+  <!-- three js gui panel controller -->
+   <div class="renderer-panel"> 
+    <div class="ui-element" :id="`ui-element-${index}`" v-for="(item,index) in elements":name="`ui-indicator-${index}`" :key="index">
+      <!-- <img class="ui-icon" :src="`${item.imgSrc}`"/> -->
+      <div class="circle" :id="`ui-circle-${index}`"></div>
+      <div class="inner-circle" :id="`ui-inner-circle-${index}`"></div>
+      <div class="ui-element-text">{{ item.text }}</div>
+    </div> 
+    <div class="ui-version">sky-renderer 1.0</div>
+  </div> 
   <div class="renderer"></div>
 </template>
 
 <style scoped>
+.inner-circle{
+  position: absolute;
+  width:14px;
+  height:14px;
+  transform: translate(2px,1px);
+  background-color: white;
+  border-radius: 50%;
+  border: black 1px solid;
+  transition: 0.2s;
+  z-index: 3;
+}
+
+.circle{
+  position: absolute;
+  width:20px;
+  height:20px;
+  background-color: black;
+  border-radius: 50%;
+  opacity: 0.4;
+  transition: 0.2s;
+  z-index: 2;
+}
 .scene-loader{
   position: fixed; 
   top: 0;
@@ -261,10 +314,43 @@ onMounted(()=>{
   justify-content: center; 
   flex-direction: column;
 }
-.renderer{
+.ui-version{
+  width:100px;
+  position: absolute;
+  user-select: none;
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size:12px;
+  top: 0px;
+  left:0px;
+}
+.ui-icon{
+  width: 25px;
+  height: 25px;
+  user-select: none;
+}
+.ui-element{
+  position: absolute;
+  color:black;
+  top:0px;
+  left:0px;
+}
+.renderer-panel{
+  position: absolute;
   margin: 0px;
-  width:100%;
-  height:100%;
+  top:0px;
+  left:0px;
+  width: auto; 
+  height: auto; 
+  z-index: 1;
+}
+.renderer{
+  position: absolute;
+  margin: 0px;
+  width:auto;
+  height:auto;
   opacity: 0;
   transition: 1.5s;
 }
@@ -278,7 +364,6 @@ onMounted(()=>{
 }
 .loading-bar-container {
     display: flex;
-
     top: 0;
     left: 0;
     width: 100px;

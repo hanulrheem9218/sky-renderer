@@ -9,12 +9,9 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { VignetteShader } from '../shaders/vignetteShader.js';
 import { Flickering } from '../shaders/screenFlickeringShader.js';
+import RendererGUI from './rendererGUI.js';
+import type { RendererObject, WaterProps } from './rendererObject.js';
 
-type WaterProps ={
-    waterColor: Three.ColorRepresentation;
-    sunColor: Three.ColorRepresentation;
-    distortionScale: number;
-}
 type DirectionalProps ={
     directionalColor:Three.ColorRepresentation;
     isHelper?:boolean;
@@ -40,8 +37,9 @@ type ParticleSystem = {
     texture: IMAGE;
 }
 
-class Renderer {
+class Renderer implements RendererObject{
     renderer:Three.WebGLRenderer;
+    rendererGUI: RendererGUI;
     scene:Three.Scene;
     perspectiveCamera: Three.PerspectiveCamera;
     orbitControl:OrbitControls;
@@ -108,6 +106,7 @@ class Renderer {
         this.rendererResize = this.rendererResize.bind(this);
         this.updateSceneLoading = this.updateSceneLoading.bind(this);
         this.inputController = this.inputController.bind(this);
+        this.rendererGUI = new RendererGUI(window,document, this.perspectiveCamera);
     };
     registerRenderer(){
         //register renderer
@@ -119,6 +118,7 @@ class Renderer {
         this.composer.setSize(this.window.innerWidth, this.window.innerHeight);
         const rendererContainer = this.document.querySelector(".renderer");
         if(rendererContainer){
+            this.rendererGUI.registerRendererGUI();
             rendererContainer.appendChild(this.renderer.domElement);
         }else{
             console.error("renderer container is missing");
@@ -127,6 +127,8 @@ class Renderer {
         this.window.addEventListener("resize", this.rendererResize);
         this.window.addEventListener("keyup",this.inputController);
         this.orbitControl.enabled = false;
+
+        //register gui
     }
     registerPostProcessing(){
         this.composer.addPass(new RenderPass(this.scene, this.perspectiveCamera));
