@@ -9,6 +9,7 @@ const rendererEngine = new Renderer(window,document);
 var sceneLoading = ref(true);
 var loadingText= ref("Loading");
 var loadingValue = ref(0);
+var isInfoWindowOpened = ref(false);
 //override renderer engien
 rendererEngine.checkAllAssetsLoaded = ()=>{
   const allLoaded = rendererEngine.loadObjects.every((obj) => !obj.isLoading);
@@ -262,10 +263,10 @@ onMounted(()=>{
 
 const elements = [
         { text: 'Achievement' ,imgSrc:"/assets/icons/circle.png" },
-        { text: 'About-Me' ,imgSrc:"/assets/icons/circle.png"},
+        { text: 'About Me' ,imgSrc:"/assets/icons/circle.png"},
         { text: 'Experience' ,imgSrc:"/assets/icons/circle.png"},
-        { text: 'Hobbies' ,imgSrc:"/assets/icons/circle.png" },
-        { text: 'Projects' ,imgSrc:"/assets/icons/circle.png"},
+        { text: 'Hobby' ,imgSrc:"/assets/icons/circle.png" },
+        { text: 'Project' ,imgSrc:"/assets/icons/circle.png"},
       ];
 
 
@@ -288,7 +289,7 @@ const elements = [
       <div class="circle" :id="`ui-circle-${index}`"></div>
       <div class="inner-circle" :id="`ui-inner-circle-${index}`"></div>
     </div> 
-    <div class="infoWindow">
+    <div v-if="`${isInfoWindowOpened}`"class="infoWindow">
       <p>Info Window</p>
     </div>
   </div> 

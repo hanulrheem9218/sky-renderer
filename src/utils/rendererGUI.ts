@@ -96,6 +96,16 @@ class RendererGUI {
             const uiAudio = new Audio(fileUrl.href);
             uiAudio.volume = 0.3;
             uiAudio.play();
+
+            const index = mouseDomElement.id.match(/\d+/)?.[0];
+            const uiElement = document.querySelector(`#ui-element-${index}`) as HTMLDivElement;
+            const infoWindow = document.querySelector(".infoWindow") as HTMLDivElement;
+            if(infoWindow !== null && uiElement !== null){
+                const computedStyle = window.getComputedStyle(uiElement);
+                const uiElementSize = {top: parseFloat(computedStyle.top), left: parseFloat(computedStyle.left)};
+                infoWindow.style.top = `${uiElementSize.top  +25}px`;
+                infoWindow.style.left = `${uiElementSize.left + 25}px`;
+            }
         }
     }
 }
